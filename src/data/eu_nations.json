@@ -1,0 +1,37 @@
+{
+  "1": { "name": "United States", "GDP": 26939100, "population": 331893745, "PCI": 81200, "capital": "Washington, D.C.", "capital_population": 712816, "flag_colors": ["red", "white", "blue"], "flag": "US" },
+  "2": { "name": "China", "GDP": 17789200, "population": 1412600000, "PCI": 12600, "capital": "Beijing", "capital_population": 21893095, "flag_colors": ["red", "yellow"], "flag": "CN" },
+  "3": { "name": "Japan", "GDP": 4389420, "population": 125836021, "PCI": 34900, "capital": "Tokyo", "capital_population": 13960000, "flag_colors": ["white", "red"], "flag": "JP" },
+  "4": { "name": "Germany", "GDP": 4328870, "population": 83166711, "PCI": 52000, "capital": "Berlin", "capital_population": 3769000, "flag_colors": ["black", "red", "gold"], "flag": "DE" },
+  "5": { "name": "India", "GDP": 3886100, "population": 1393409038, "PCI": 2800, "capital": "New Delhi", "capital_population": 31870000, "flag_colors": ["saffron", "white", "green"], "flag": "IN" },
+  "6": { "name": "United Kingdom", "GDP": 3127050, "population": 67215293, "PCI": 46500, "capital": "London", "capital_population": 8982000, "flag_colors": ["red", "white", "blue"], "flag": "GB" },
+  "7": { "name": "France", "GDP": 2922530, "population": 67391582, "PCI": 43400, "capital": "Paris", "capital_population": 2148000, "flag_colors": ["blue", "white", "red"], "flag": "FR" },
+  "8": { "name": "Italy", "GDP": 2162790, "population": 59554023, "PCI": 36300, "capital": "Rome", "capital_population": 2873000, "flag_colors": ["green", "white", "red"], "flag": "IT" },
+  "9": { "name": "Brazil", "GDP": 2133870, "population": 213993437, "PCI": 9900, "capital": "Brasília", "capital_population": 3055149, "flag_colors": ["green", "yellow", "blue", "white"], "flag": "BR" },
+  "10": { "name": "Canada", "GDP": 2097290, "population": 38067913, "PCI": 55100, "capital": "Ottawa", "capital_population": 1013247, "flag_colors": ["red", "white"], "flag": "CA" },
+  "11": { "name": "Russia", "GDP": 1769490, "population": 145912025, "PCI": 12100, "capital": "Moscow", "capital_population": 12537954, "flag_colors": ["white", "blue", "red"], "flag": "RU" },
+  "12": { "name": "South Korea", "GDP": 1693670, "population": 51780579, "PCI": 32700, "capital": "Seoul", "capital_population": 9733509, "flag_colors": ["white", "black", "red", "blue"], "flag": "KR" },
+  "13": { "name": "Australia", "GDP": 1693100, "population": 25766605, "PCI": 65700, "capital": "Canberra", "capital_population": 462213, "flag_colors": ["blue", "white", "red"], "flag": "AU" },
+  "14": { "name": "Spain", "GDP": 1440170, "population": 47329981, "PCI": 30400, "capital": "Madrid", "capital_population": 3348536, "flag_colors": ["red", "yellow"], "flag": "ES" },
+  "15": { "name": "Mexico", "GDP": 1382290, "population": 126014024, "PCI": 10900, "capital": "Mexico City", "capital_population": 9209944, "flag_colors": ["green", "white", "red"], "flag": "MX" },
+  "16": { "name": "Indonesia", "GDP": 1335590, "population": 273523621, "PCI": 4900, "capital": "Jakarta", "capital_population": 10957794, "flag_colors": ["red", "white"], "flag": "ID" },
+  "17": { "name": "Netherlands", "GDP": 1003720, "population": 17407585, "PCI": 57700, "capital": "Amsterdam", "capital_population": 872680, "flag_colors": ["red", "white", "blue"], "flag": "NL" },
+  "18": { "name": "Saudi Arabia", "GDP": 833541, "population": 35340471, "PCI": 23600, "capital": "Riyadh", "capital_population": 7800000, "flag_colors": ["green", "white"], "flag": "SA" },
+  "19": { "name": "Turkey", "GDP": 815272, "population": 85300000, "PCI": 9500, "capital": "Ankara", "capital_population": 5503985, "flag_colors": ["red", "white"], "flag": "TR" },
+  "20": { "name": "Switzerland", "GDP": 807058, "population": 8707400, "PCI": 92700, "capital": "Bern", "capital_population": 134000, "flag_colors": ["red", "white"], "flag": "CH" },
+  "21": { "name": "Taiwan", "GDP": 759104, "population": 23859000, "PCI": 31800, "capital": "Taipei", "capital_population": 2646204, "flag_colors": ["blue", "white", "red"], "flag": "TW" },
+  "22": { "name": "Poland", "GDP": 679429, "population": 37797100, "PCI": 18000, "capital": "Warsaw", "capital_population": 1801000, "flag_colors": ["white", "red"], "flag": "PL" },
+  "23": { "name": "Sweden", "GDP": 621151, "population": 10415811, "PCI": 59600, "capital": "Stockholm", "capital_population": 975551, "flag_colors": ["blue", "yellow"], "flag": "SE" },
+  "24": { "name": "Belgium", "GDP": 669844, "population": 11589623, "PCI": 57700, "capital": "Brussels", "capital_population": 1750000, "flag_colors": ["black", "yellow", "red"], "flag": "BE" },
+  "25": { "name": "Thailand", "GDP": 544085, "population": 69830779, "PCI": 7800, "capital": "Bangkok", "capital_population": 8281000, "flag_colors": ["red", "white", "blue"], "flag": "TH" },
+  "26": { "name": "Austria", "GDP": 455243, "population": 9006398, "PCI": 50500, "capital": "Vienna", "capital_population": 1882076, "flag_colors": ["red", "white"], "flag": "AT" },
+  "27": { "name": "Norway", "GDP": 482013, "population": 5421241, "PCI": 88900, "capital": "Oslo", "capital_population": 693494, "flag_colors": ["red", "blue", "white"], "flag": "NO" },
+  "28": { "name": "United Arab Emirates", "GDP": 501489, "population": 9770529, "PCI": 51400, "capital": "Abu Dhabi", "capital_population": 1186000, "flag_colors": ["red", "green", "white", "black"], "flag": "AE" },
+  "29": { "name": "Israel", "GDP": 534250, "population": 9370000, "PCI": 57000, "capital": "Jerusalem", "capital_population": 900000, "flag_colors": ["blue", "white"], "flag": "IL" },
+  "30": { "name": "Argentina", "GDP": 518560, "population": 45195777, "PCI": 11400, "capital": "Buenos Aires", "capital_population": 2890151, "flag_colors": ["light blue", "white"], "flag": "AR" }
+
+}
+
+
+
+
