@@ -5,6 +5,8 @@
   text-align: center;
 }
 
+
+
 img {
   height: 64px;
   width: 64px;
@@ -30,17 +32,24 @@ img {
 }
 
 .card{
+  border-radius: 30px;
   margin:20px;
+  background-color: antiquewhite;
+  border:0.5rem solid;
   
-  background-color: brown;
+  border-color: brown;
   display: flex;
   flex-direction: column;
 }
 
 .cpuCard{
+  border-radius: 30px;
   padding:2rem;
   margin:20px;
-  background-color: rgb(52, 12, 12);
+  background-color: antiquewhite;
+  border:0.5rem solid;
+  
+  border-color: rgb(52, 12, 12);
   display: flex;
   flex-direction: column;
 }
