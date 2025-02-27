@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import nations from './data/eu_nations.json'
 import Card from './components/Card'
 import CpuCard from './components/CpuCard'
+import ReactCardFlip from 'react-card-flip';
+
+
+
 
 function App() {
+
+  const [isFlipped, setIsFlipped] = useState(true)
 
   const deckSize = 4
   const differentsCards = 30
@@ -186,25 +190,45 @@ function App() {
   return (
     <>
     <button>{result}</button>
+    
+
     <div className='cards'>
-      <div style={{ display: pshow }}>
-      <Card nat={nations[displayCard]}  cpu = {nations[cpuDisplayCard]} index={displayCard} compare={compare}>
+      <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
 
         
-      </Card>
-      <h2>score : {myScore}</h2>
-      <h2>cards : {deck}</h2>
+
+        <div>
+          <Card   nat={nations[displayCard]}  cpu = {nations[cpuDisplayCard]} index={displayCard} compare={compare}>
+
+              
+          </Card>
+
+        </div>
+
+        <div  onClick={() => setIsFlipped(false)} className='cardBack'>
+          <h1>WOWOOW</h1>
+        </div>
+        
+      </ReactCardFlip>
+
+      <div style={{ display: pshow }}>
+
+          <Card nat={nations[displayCard]}  cpu = {nations[cpuDisplayCard]} index={displayCard} compare={compare}>
+
+          
+          </Card>
+          
+          <h2>cards : {deck}</h2>
+      
       </div>
 
       <div style={{ display: cshow }}>
       <CpuCard nat={nations[cpuDisplayCard]} index={cpuDisplayCard} > </CpuCard>
-      <h2>score : {cpuScore}</h2>
+      
       <h2>cards : {cpuDeck}</h2>
       </div>
       
     </div>
-    
-    <button disabled={nbutton} onClick={()=>nextCard()}>NEXT</button>
     </>
   )
 }

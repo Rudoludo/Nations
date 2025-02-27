@@ -5,6 +5,19 @@
   text-align: center;
 }
 
+.cardBack {
+
+  border-radius: 30px;
+  margin:20px;
+  background-color: antiquewhite;
+  border:0.5rem solid;
+  
+  border-color: brown;
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+  width: 304px;
+}
 
 
 img {
