@@ -1,0 +1,61 @@
+:root {
+
+    --color1: #8f047f;
+    --color1L:#ee76e0;
+    --color1W:#ebc8e7;
+    --color2: #061de3;
+
+    /* margin of the deck from sides */
+    --marginX: 5vw;
+
+    /* dimension of cards  */
+    --cardX: 22vw;
+
+    /* scale of the deck compared to the card */
+    --scale: 0.5;
+    
+
+    /* deck size, HALF of the card Size */
+    --cardX2: calc(var(--cardX) * var(--scale));
+    /*half deck size, used for effective margins */
+    --cardX4: calc(var(--cardX) * var(--scale) * var(--scale));
+
+    /* effective margin , used for precise position*/
+    --d1ogX: calc(var(--marginX) - var(--cardX4));
+
+    --d1ogXR: calc(100vw - var(--d1ogX) - var(--cardX));
+
+    --d1ogy: 3vh;
+        
+    --d1fY: 30vh;
+    --d1fX: 20vw;
+
+    --shiftX: 25vw;
+    --shiftY: 30vh;
+
+    --over:80vw;
+
+    --cCover:calc(100vw - var(--marginX) - var(--marginX) - var(--cardX2));
+    
+
+    
+
+
+    
+    
+
+    
+
+    --cardBg:url(../assets/back.jpeg);
+    --vsPng:url(../assets/vs.png);
+
+
+
+}
+
+* {
+    
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}

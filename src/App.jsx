@@ -1,31 +1,33 @@
-import { useEffect, useState } from 'react'
+import { useState,useEffect } from 'react'
+import { motion, AnimatePresence} from "framer-motion"
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
 import './App.css'
-import nations from './data/eu_nations.json'
 import Card from './components/Card'
-import CpuCard from './components/CpuCard'
-import ReactCardFlip from 'react-card-flip';
+import nations from './data/eu_nations.json'
+import Modal from './components/Modal'
+import Backdrop from './components/Backdrop'
 
-
-
+import Deck from './components/Deck'
+import DrawBtn from './components/DrawBtn'
+import WinBtn from './components/WinBtn'
 
 function App() {
 
-  const [isFlipped, setIsFlipped] = useState(true)
-
-  const deckSize = 4
+  const deckSize = 2
   const differentsCards = 30
 
   //PLAYERS DECKS
-  const [randomss,SetRandomss] = useState([])
-  const [cpuRandomss,SetCpuRandomss] = useState([])
+  const [randomss,setRandomss] = useState([])
+  const [cpuRandomss,setCpuRandomss] = useState([])
 
   //DECK TOTAL CARDS
-  const [deck,SetDeck] =useState(deckSize)
-  const [cpuDeck,SetCpuDeck] = useState(deckSize)
+  const [deck,setDeck] =useState(0)
+  const [cpuDeck,setCpuDeck] = useState(0)
 
 
-  const [randomIndex, SetRandomIndex] = useState(0)
-  const [randomCpuIndex, SetCpuRandomIndex] = useState(0)
+  const [randomIndex, setRandomIndex] = useState(0)
+  const [randomCpuIndex, setCpuRandomIndex] = useState(0)
 
 
 
@@ -33,31 +35,99 @@ function App() {
   const [displayCard, setDisplayCard] = useState(null)
   const [cpuDisplayCard, setCpuDisplayCard] = useState(null)
 
-  
 
-  const [myScore,SetMyScore] = useState(0)
-  const [cpuScore,SetCpuScore] = useState(0)
+  const player="1"
+  const cpu="2"
 
-  const [nbutton,SetNbutton]=useState(false)
-  const [result,SetResult] = useState("")
-  
-  
-  
-  
-  const[pshow,setPshow] = useState("block")
-  const[cshow,setCshow] = useState("block")
+  const [draw, setDraw] = useState(false)
+  const [flip1, setFlip1] = useState(false)
+  const [flip2, setFlip2] = useState(false)
 
   
+  const [gameState, setGameState] = useState("6")
 
-  function checkWinner(listLength){
-    if (listLength == 0){
-      SetResult("GAME OVER")
-      setCshow("none")
-      return true
+  const [mainBtn, setMainBtn] = useState("Draw")
 
-    }
+  const [resultBtn, setResultBtn] = useState("0")
+  
+
+
+
+  const [selectedStat, setSelectedStat] = useState(null);
+  const [showCountUp, setShowCountUp] = useState(false);
+
+
+  const [tieFlag,setTieFLag] = useState(false);
+  const [modalOpen,setModalOpen]= useState(false);
+  const [modalMessage,setModalMessage] = useState("TOP NATIONS!")
+
+  const close = ()=> setModalOpen(false);
+  const open = ()=> setModalOpen(true);
+
+  
+
+    
+
+  const stats = [
+      {key: "population", display: "population",unit:"people", accessor: (obj) => obj.population},
+      {key: "capital_population", display: "cap population",unit:"people", accessor: (obj) => obj.capital_population},
+      {key: "nameLength", display: "Name length",unit:"letters", accessor: (obj) => obj.name.length},
+      {key: "GDP", display: "GDP", unit:"milions $",accessor: (obj) => obj.GDP},
+      {key: "PCI", display: "Average Income",unit:"$", accessor: (obj) => obj.PCI}
+  ];
+
+  
+
+  const handleButtonClick = (stat) => {
+
+      if (selectedStat === null ){
+          // First click - select this button (hide others)
+          setSelectedStat(stat);
+          setFlip2(true)
+
+          
+        }
+
+
+
+      else if  (selectedStat.key === stat.key) {
+        // Second click on the same button - call compare function
+        
+        
+        
+        
+      } 
+  };
+
+  const startCompare = () => {
+
+    compare(selectedStat.accessor(nations[displayCard]), selectedStat.accessor(nations[cpuDisplayCard]));
     
   }
+
+
+  const getRandom = () => {
+
+    setModalOpen(false)
+
+    setDeck(deckSize)
+    setCpuDeck(deckSize)
+    let newRandomss = []
+    let cpuRandomss = []
+    for (let i = 0; i<deckSize; i++){
+    newRandomss.push(Math.floor((Math.random() * differentsCards))+1)
+    cpuRandomss.push(Math.floor((Math.random() * differentsCards))+1)
+    
+    }
+    setRandomss(newRandomss)
+    setCpuRandomss(cpuRandomss)
+    console.log("DECKS GENERATED")
+
+    setGameState("0")
+    
+  }
+  
+
 
   //this function enable to cycle over the deck again
 
@@ -75,102 +145,59 @@ function App() {
     }
   }
 
-
-
-  function compare(my,their){
-    if (my > their) {
-      
-      const newScore = myScore + 1
-      SetResult("WON")
-      SetMyScore(newScore)
-
-      console.log(`WON, stealing ${cpuRandomss[randomCpuIndex]}`)
-      SetRandomss([...randomss,cpuRandomss[randomCpuIndex]])
-
-      const newDeck = cpuRandomss.filter((item,itemIndex)=>{
-        return itemIndex !== randomCpuIndex
-      })
-      console.log(newDeck)
-
-      if (checkWinner(newDeck.length)){
-        return
-      }
-      ///ADDCHECK HERE
-      SetCpuRandomss(newDeck)
-      ///SetRandomIndex(randomIndex+1)
-      SetRandomIndex(updateIndex(randomss.length,randomIndex,1))
-      SetCpuRandomIndex(updateIndex(cpuRandomss.length,randomCpuIndex,0))
-
-      
-    }
-    else if (my === their) {
-      SetResult("DRAW")
-
-      ///SetCpuRandomIndex(randomCpuIndex+1)
-      SetCpuRandomIndex(updateIndex(cpuRandomss.length,randomCpuIndex,1))
-
-      ///SetRandomIndex(randomIndex+1)
-      SetRandomIndex(updateIndex(randomss.length,randomIndex,1))
-      
-    }
-    else {
-      console.log(`LOST, losing ${randomss[randomIndex]}`)
-      const newScore = cpuScore + 1
-      SetCpuScore(newScore)
-      SetResult("LOST")
-      nextCard()
-
-      SetCpuRandomss([...cpuRandomss,randomss[randomIndex]])
-
-      const newDeck = randomss.filter((item,itemIndex)=>{
-        return itemIndex !== randomIndex
-      })
-      ///ADDCHECKHERE
-      console.log(newDeck)
-      SetRandomss(newDeck)
-
-      ///SetCpuRandomIndex(randomCpuIndex+1)
-      SetCpuRandomIndex(updateIndex(cpuRandomss.length,randomCpuIndex,1))
-      SetRandomIndex(updateIndex(randomss.length,randomIndex,0))
-    }
-
-    
-
-    
-  }
-
-  function getRandom(){
-    let newRandomss = []
-    let cpuRandomss = []
-    for (let i = 0; i<deckSize; i++){
-    newRandomss.push(Math.floor((Math.random() * differentsCards))+1)
-    cpuRandomss.push(Math.floor((Math.random() * differentsCards))+1)
-    
-    }
-    SetRandomss(newRandomss)
-    SetCpuRandomss(cpuRandomss)
-    console.log("DECKS GENERATED")
-    
-  }
   
   useEffect(()=>{
-    getRandom()
+    
+    setModalOpen(true)
     
 
   },[])
 
-
-
   useEffect(()=>{
+
+     
     
-    if (randomss.length > 0) {
+    
+    setTimeout(() => {
+      if (gameState=="3"){
+        setCpuDeck(cpuDeck +1 )
+        setDeck(deck + 1)
+      }
+
+      //check winner
+    if (randomss.length == deckSize * 2){
+      setGameState("5");
+      setModalMessage("Congratulations YOU WON!")
+      setModalOpen(true)
+      
+    }
+    else if (cpuRandomss.length == deckSize * 2){
+      setGameState("5");
+      
+      setModalMessage("YOU LOST!  Try Again!")
+      setModalOpen(true)
+      
+    }
+
+    /* else { setGameState("0")}  */
+
+    setDeck(randomss.length)
+    setCpuDeck(cpuRandomss.length)
+      
+    
+    
+    if (randomss.length > 0 && cpuRandomss.length > 0) {
+
+      setGameState("0")
+
+      
+
       console.log(`random index ${randomIndex}`)
       console.log(randomss)
       console.log(`cpu random index ${randomCpuIndex}`)
       console.log(cpuRandomss)
       
-      SetDeck(randomss.length)
-      SetCpuDeck(cpuRandomss.length)
+      
 
 
       
@@ -179,61 +206,196 @@ function App() {
       
       setDisplayCard(firstCardIndex)
       setCpuDisplayCard(cpuCardIndex)
+      setSelectedStat(null)
 
       console.log(`first card index : ${firstCardIndex}`)
 
       console.log(`first card: ${nations[firstCardIndex].name}`)
+      console.log(`XXXXXXX ${showCountUp}`)
 
-  }},[randomIndex,randomCpuIndex,randomss])
+    }
+
+    
+
+  }, 600);
+},[randomIndex,randomCpuIndex,randomss,tieFlag])
+  
+
+
+
+
+
+
+
+  
+
+  const playDraw = () => {
+    setShowCountUp(false)
+
+    setCpuDeck(cpuDeck-1)
+    setDeck(deck - 1)
+    setFlip1(false)
+    setFlip2(false)
+    setDraw(true);
+    setGameState("5");
+  }
+
+  const winState = (x) => {
+    console.log(`gamestate:${x}`)
+    setGameState(x);
+    setTimeout(() => {
+      
+      setDraw(false);
+      setResultBtn("0");
+      if (x==player){
+        win() 
+      }
+      else if (x==cpu){
+        lost()
+      }
+      else if (x=="3"){
+        tie()
+      }
+
+      // Show component after 3 seconds
+    }, 300);
+
+       
+  }
+
+  const flipCard1 = () => setFlip1(true);
+  const flipCard2 = () => setFlip2(true);
+
+  //compare function
+  function compare(my, their) {
+    
+    console.log(`called function on ${my} vs ${their}`)
+  
+    if (my > their) {          
+      /* winState("1"); */
+      setResultBtn("WIN")
+    }
+    else if (my === their) {
+      setResultBtn("TIE")      
+    }
+    else {
+      setResultBtn("LOST")      
+      /* winState("2"); */
+    }
+    return gameState;
+  }
+
+  const win = () => {
+    console.log(`WON, stealing ${cpuRandomss[randomCpuIndex]}`);
+
+      setRandomss([...randomss, cpuRandomss[randomCpuIndex]]);
+      const newDeck = cpuRandomss.filter((item, itemIndex) => {
+        return itemIndex !== randomCpuIndex;
+      })
+      setCpuRandomss(newDeck);
+
+
+      console.log(randomss);
+      console.log(cpuRandomss)
+      console.log(randomss.length)
+      console.log(deckSize * 2)
+
+      
+      ///setRandomIndex(randomIndex+1)
+      setRandomIndex(updateIndex(randomss.length, randomIndex, 1));
+      setCpuRandomIndex(updateIndex(cpuRandomss.length, randomCpuIndex, 0));
+    
+  }
+
+  const lost = ()=>{
+    console.log(`LOST, losing ${randomss[randomIndex]}`);
+      
+      
+      setCpuRandomss([...cpuRandomss, randomss[randomIndex]])
+      const newDeck = randomss.filter((item, itemIndex) => {
+        return itemIndex !== randomIndex;
+      })
+      ///ADDCHECKHERE
+      console.log(newDeck);
+      setRandomss(newDeck);
+      ///setCpuRandomIndex(randomCpuIndex+1)
+      setCpuRandomIndex(updateIndex(cpuRandomss.length, randomCpuIndex, 1));
+      setRandomIndex(updateIndex(randomss.length, randomIndex, 0));
+  }
+
+  const tie = ()=>{
+    ///setCpuRandomIndex(randomCpuIndex+1)
+    setCpuRandomIndex(updateIndex(cpuRandomss.length, randomCpuIndex, 1));
+    ///setRandomIndex(randomIndex+1)
+    setRandomIndex(updateIndex(randomss.length, randomIndex, 1));
+    setTieFLag(!tieFlag);
+    
+  }
+
   
 
   return (
     <>
-    <button>{result}</button>
-    
-
-    <div className='cards'>
-      <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
-
+      <AnimatePresence mode='sync'>
         
-
-        <div>
-          <Card   nat={nations[displayCard]}  cpu = {nations[cpuDisplayCard]} index={displayCard} compare={compare}>
-
-              
-          </Card>
-
-        </div>
-
-        <div  onClick={() => setIsFlipped(false)} className='cardBack'>
-          <h1>WOWOOW</h1>
-        </div>
-        
-      </ReactCardFlip>
-
-      <div style={{ display: pshow }}>
-
-          <Card nat={nations[displayCard]}  cpu = {nations[cpuDisplayCard]} index={displayCard} compare={compare}>
-
+        {draw && <Card 
+          type={player} 
+          key={"p" + player} 
+          flip={flipCard1} 
+          flipFlag={flip1} 
+          flipFlag2={flip2}
+          gameState={gameState}
+          nat={nations[displayCard]}
+          cpu = {nations[cpuDisplayCard]}
+          compare={compare}
+          selectedStat={selectedStat}
+          handleButtonClick={handleButtonClick}
+          showCountUp={showCountUp}
           
-          </Card>
-          
-          <h2>cards : {deck}</h2>
-      
-      </div>
+          stats={stats}
+        /> }
 
-      <div style={{ display: cshow }}>
-      <CpuCard nat={nations[cpuDisplayCard]} index={cpuDisplayCard} > </CpuCard>
+        {draw && <Card 
+          type={cpu} 
+          key={"p" + cpu} 
+          flip={flipCard2} 
+          flipFlag={flip2} 
+          gameState={gameState}
+          nat={nations[cpuDisplayCard]}
+          selectedStat={selectedStat}
+          stats={stats}
+          setShowCountUp={setShowCountUp}
+          showCountUp={showCountUp}
+          startCompare={startCompare}
+          
+        />}
+
+        {(gameState=="0" ) && <DrawBtn playDraw={playDraw} text={mainBtn} ></DrawBtn>}
+
+        {(resultBtn=="WIN" ) && <WinBtn winState={winState} text={resultBtn} winner={player} key={`win${player}`} ></WinBtn>}
+
+        {(resultBtn=="LOST" ) && <WinBtn winState={winState} text={resultBtn} winner={cpu} key={`win${cpu}`} ></WinBtn>}
+        {(resultBtn=="TIE" ) && <WinBtn winState={winState} text={resultBtn} winner={"3"} key={`win3`} ></WinBtn>}
+      </AnimatePresence>
+
+      {deck > 0  && <Deck deckIndex={player} current={deck}/>}
       
-      <h2>cards : {cpuDeck}</h2>
-      </div>
+      {cpuDeck > 0 && <Deck deckIndex={cpu} current={cpuDeck}/>}
+
+
+      <AnimatePresence  mode='wait'>
+              {modalOpen && <Modal modalOpen={modalOpen} text={modalMessage} restart={getRandom} gameState={gameState}/>}
+      </AnimatePresence>
       
-    </div>
+
+      
+
+      
+
+      
+     
     </>
   )
 }
 
 export default App
-
-
-///STEAL
