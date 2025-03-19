@@ -2,9 +2,11 @@ import React from 'react'
 import BigCard from './BigCard'
 import BigCpuCard from './BigCpuCard'
 import {motion,AnimatePresence} from 'framer-motion'
+import TiltedCard from './TiltedCard/TiltedCard'
 
 
-export default function Card({type,flip,flipFlag, gameState,nat,handleButtonClick,selectedStat,stats,setShowCountUp,showCountUp,startCompare}) {
+
+export default function Card({type,flip,flipFlag, gameState,nat,maxValue,handleButtonClick,selectedStat,stats,setFlipped,showCountUp,startCompare,minValue}) {
     
 
     const shifX =(getComputedStyle(document.documentElement).getPropertyValue("--shiftX"))
@@ -95,28 +97,38 @@ export default function Card({type,flip,flipFlag, gameState,nat,handleButtonClic
         onClick={type == "1" ? flip : null}
         
         >
+          
+            
+          
             {type == "1" && 
             <BigCard 
             flipFlag={flipFlag} 
             nat={nat} 
+            startCompare={startCompare}
+            
             handleButtonClick={handleButtonClick}
             selectedStat={selectedStat}
             stats={stats}
             showCountUp={showCountUp}
+            minValue={minValue}
             />
+          }
+          
             
 
-            }
+            
 
             {type == "2" && 
             <BigCpuCard
             startCompare={startCompare}
             flipFlag={flipFlag} 
             nat={nat} 
+            maxValue={maxValue}
             selectedStat={selectedStat}
             stats={stats}
-            setShowCountUp={setShowCountUp}
+            setFlipped={setFlipped}
             showCountUp={showCountUp}
+            minValue={minValue}
 
             
             />

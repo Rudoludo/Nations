@@ -40,7 +40,7 @@ export default function Modal({ text, restart, gameState}) {
     <Backdrop >
         <motion.div 
             /* onClick={(e)=> e.stopPropagation}  */
-            className='modal orange-gradient'
+            className='modal'
             variants={dropIn}
             initial="hidden"
             animate="visible"

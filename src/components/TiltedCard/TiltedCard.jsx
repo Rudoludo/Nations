@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import "./TiltedCard.css";
+/* import "./TiltedCard.css"; */
 
 const springValues = {
-  damping: 30,
-  stiffness: 100,
-  mass: 2,
+  damping: 60,
+  stiffness: 60,
+  mass: 4,
 };
 
 export default function TiltedCard({
@@ -16,8 +16,8 @@ export default function TiltedCard({
   containerWidth = "100%",
   imageHeight = "0px",
   imageWidth = "0px",
-  scaleOnHover = 1.1,
-  rotateAmplitude = 14,
+  scaleOnHover = 1,
+  rotateAmplitude = 0.5,
   showMobileWarning = true,
   showTooltip = true,
   overlayContent = null,
@@ -47,10 +47,10 @@ export default function TiltedCard({
     const offsetY = e.clientY - rect.top - rect.height / 2;
 
     const rotationX = (offsetY / (rect.height / 2)) * -rotateAmplitude;
-    const rotationY = (offsetX / (rect.width / 2)) * rotateAmplitude;
+    const rotationY = (offsetX / (rect.width / 4)) * rotateAmplitude ;
 
-    rotateX.set(rotationX);
-    rotateY.set(rotationY);
+    rotateX.set(rotationX * 0.3);
+    rotateY.set(rotationY * 0.3);
 
     x.set(e.clientX - rect.left);
     y.set(e.clientY - rect.top);
@@ -81,6 +81,7 @@ export default function TiltedCard({
         height: containerHeight,
         width: containerWidth,
       }}
+      onMouseDown={handleMouseLeave}
       onMouseMove={handleMouse}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -101,7 +102,7 @@ export default function TiltedCard({
           scale,
         }}
       >
-        <motion.img
+        {/* <motion.img
           src={imageSrc}
           alt={altText}
           className="tilted-card-img"
@@ -109,7 +110,7 @@ export default function TiltedCard({
             width: imageWidth,
             height: imageHeight,
           }}
-        />
+        /> */}
 
         {displayOverlayContent && overlayContent && (
           <motion.div

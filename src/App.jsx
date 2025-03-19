@@ -7,6 +7,7 @@ import Card from './components/Card'
 import nations from './data/eu_nations.json'
 import Modal from './components/Modal'
 import Backdrop from './components/Backdrop'
+import Glow from './components/glow'
 
 import Deck from './components/Deck'
 import DrawBtn from './components/DrawBtn'
@@ -14,8 +15,8 @@ import WinBtn from './components/WinBtn'
 
 function App() {
 
-  const deckSize = 2
-  const differentsCards = 30
+  const deckSize = 1
+  const differentsCards = 1
 
   //PLAYERS DECKS
   const [randomss,setRandomss] = useState([])
@@ -54,6 +55,11 @@ function App() {
 
 
   const [selectedStat, setSelectedStat] = useState(null);
+  const [minValue, setMinValue] = useState(null)
+  const [maxValue, setMaxValue] = useState(null)
+  
+
+  const [flipped, setFlipped] =useState(false)
   const [showCountUp, setShowCountUp] = useState(false);
 
 
@@ -71,9 +77,10 @@ function App() {
   const stats = [
       {key: "population", display: "population",unit:"people", accessor: (obj) => obj.population},
       {key: "capital_population", display: "cap population",unit:"people", accessor: (obj) => obj.capital_population},
-      {key: "nameLength", display: "Name length",unit:"letters", accessor: (obj) => obj.name.length},
+      ,
       {key: "GDP", display: "GDP", unit:"milions $",accessor: (obj) => obj.GDP},
-      {key: "PCI", display: "Average Income",unit:"$", accessor: (obj) => obj.PCI}
+      {key: "PCI", display: "Average Income",unit:"$", accessor: (obj) => obj.PCI},
+      {key: "nameLength", display: "Name length",unit:"letters", accessor: (obj) => obj.name.length}
   ];
 
   
@@ -83,7 +90,14 @@ function App() {
       if (selectedStat === null ){
           // First click - select this button (hide others)
           setSelectedStat(stat);
+          const value1 = stat.accessor(nations[displayCard]);
+          const value2 = stat.accessor(nations[cpuDisplayCard]);
+          setMaxValue(value1 > value2 ? value1 : value2)
+          setMinValue(value1 < value2 ? value1 : value2 )
+          
+          console.log(value1 < value2 ? value1 : value2 )
           setFlip2(true)
+          setFlipped(false)
 
           
         }
@@ -121,6 +135,8 @@ function App() {
     }
     setRandomss(newRandomss)
     setCpuRandomss(cpuRandomss)
+    setRandomIndex(0)
+    setCpuRandomIndex(0)
     console.log("DECKS GENERATED")
 
     setGameState("0")
@@ -152,6 +168,17 @@ function App() {
     
 
   },[])
+  /////////////////////////
+  useEffect(()=>{
+    console.log(`shocountUP: ${showCountUp}`)
+    
+    flipped && setShowCountUp(true)
+    ///////????????
+    !flipped && setShowCountUp(false)
+
+    console.log(`shocountUP updated: ${showCountUp}`)
+
+  },[flipped])
 
   useEffect(()=>{
 
@@ -207,6 +234,7 @@ function App() {
       setDisplayCard(firstCardIndex)
       setCpuDisplayCard(cpuCardIndex)
       setSelectedStat(null)
+      setMinValue(null)
 
       console.log(`first card index : ${firstCardIndex}`)
 
@@ -346,11 +374,12 @@ function App() {
           flipFlag2={flip2}
           gameState={gameState}
           nat={nations[displayCard]}
-          cpu = {nations[cpuDisplayCard]}
-          compare={compare}
+          nat2 = {nations[cpuDisplayCard]}
+          startCompare={startCompare}
           selectedStat={selectedStat}
           handleButtonClick={handleButtonClick}
           showCountUp={showCountUp}
+          minValue={minValue}
           
           stats={stats}
         /> }
@@ -362,15 +391,17 @@ function App() {
           flipFlag={flip2} 
           gameState={gameState}
           nat={nations[cpuDisplayCard]}
+          maxValue={maxValue}
           selectedStat={selectedStat}
           stats={stats}
-          setShowCountUp={setShowCountUp}
           showCountUp={showCountUp}
+          minValue={minValue}
+          setFlipped={setFlipped}
           startCompare={startCompare}
           
         />}
 
-        {(gameState=="0" ) && <DrawBtn playDraw={playDraw} text={mainBtn} ></DrawBtn>}
+        {(gameState=="0" ) && <DrawBtn playDraw={playDraw} text={mainBtn} />  }
 
         {(resultBtn=="WIN" ) && <WinBtn winState={winState} text={resultBtn} winner={player} key={`win${player}`} ></WinBtn>}
 

@@ -1,11 +1,40 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import Glow from './glow'
 import { animate, AnimatePresence, motion } from 'framer-motion'
 import CountUp from './Contup'
 
-export default function BigCpuCard({ flipFlag, nat,
-    selectedStat, stats, setShowCountUp, showCountUp,startCompare }) {
+export default function BigCpuCard({ flipFlag, nat, maxValue,
+    selectedStat, stats, setFlipped, showCountUp, startCompare, minValue }) {
 
     
+    
+
+
+    
+    
+    
+    const [cpuCountUp,setCpuCountUp]=useState(null)
+    const [step, setStep] = useState(false)
+    const [min,setMin] = useState(null)
+    const [max,setMax] = useState(null)
+
+    useEffect(()=>{
+        minValue != null && setMin(minValue)
+        maxValue != null && setMax(maxValue)
+        
+    },[minValue])
+
+
+    useEffect(()=>{
+        showCountUp && setCpuCountUp(true)
+        
+
+    },[showCountUp])
+
+
+
+
+
 
     const bCardAnim = {
         still: {
@@ -33,6 +62,16 @@ export default function BigCpuCard({ flipFlag, nat,
 
     }
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 1, // Delay each child by 0.2s
+            },
+        },
+    };
+
     const visibleButtons = stats.filter(stat =>
         selectedStat === null || selectedStat.key === stat.key
     );
@@ -50,53 +89,97 @@ export default function BigCpuCard({ flipFlag, nat,
             id="card1"
             transition={{ duration: 1 }}
 
-            onAnimationComplete={() => {
-                if (flipFlag) {
-                  setShowCountUp(true); // Start CountUp when flip finishes
+            onAnimationComplete={(definition) => {
+                if (definition === "flip") {
+                    console.log("Flip animation finished!");
+                    setFlipped(true);
                 } else {
-                  setShowCountUp(false); // Reset when flipping back
+                    setFlipped(false);
                 }
-              }}
+            }}
         >
             <div className="front">
                 <p>Front</p>
             </div>
 
             <div className="back">
-                <h2><img src={`https://flagsapi.com/${nat.flag}/flat/64.png`} /></h2>
 
-                {visibleButtons.map(stat => (
-                    <button
-                        key={stat.key}
-                        className="minibtn"
-                        onClick={() => null}
-                    >
-                        {stat.display}
-                    </button>
-                ))
-                }
 
-                {selectedStat && <h1>
+                <div className='flag'><img className="flagImg" src={`https://flagsapi.com/${nat.flag}/flat/64.png`} /></div>
+                
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="show"
+                    className="button-container"
 
-                    {showCountUp &&
+                >
+
+                    {visibleButtons.map(stat => (
+                        <button
+                            key={stat.key}
+                            className="minibtn single-btn"
+                            onClick={() => null}
+                        >
+                            {stat.display}
+                        </button>
+                    ))
+                    }
+
+                </motion.div>
+                {min != null &&
+                <div className='playValue'>
+                    
+                    
+                        
+                    {selectedStat && (
+                        cpuCountUp &&
                         <CountUp
                             from={0}
-                            to={selectedStat.accessor(nat)}
+                            to={min}
                             separator=","
                             direction="up"
                             /* duration={1} */
                             className="count-up-text"
-                            onEnd={startCompare}
-                        />}
+                            onEnd={() => {
+                                console.log(min,max)
+                                
+                                if (selectedStat.accessor(nat) > min) {
+                                    setStep(true);
+                                    setCpuCountUp(false);
+                                } else if (min == max) {
+                                    
+                                    
+                                    startCompare()
+                                }
+                            }}
+                        />
+                    )}
+                    
+                    
 
-                    <p> {selectedStat.unit}
-                    </p>
-                </h1>}
+                    {step && 
+                    <Glow><CountUp
+                    from={min}
+                    to={selectedStat.accessor(nat)}
+                    separator=","
+                    direction="up"
+                    /* duration={1} */
+                    className="count-up-text"
+                    onEnd={startCompare}
+                    /></Glow>}
+
+
+
+                    {selectedStat && < p > {selectedStat.unit}
+                    </p>}
+                    
+                </div>}
 
 
             </div>
-        </motion.div>
-
+        </motion.div >
+                    
     )
 }
 

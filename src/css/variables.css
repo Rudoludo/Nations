@@ -1,9 +1,11 @@
 :root {
 
-    --color1: #8f047f;
-    --color1L:#ee76e0;
+    --color1: #274a5e;
+    --color1L:#cfba7c;
     --color1W:#ebc8e7;
-    --color2: #061de3;
+    --color2: #060814;
+    --colorNeut: #c7c6cc;
+    --colorGold: #f3e09f;
 
     /* margin of the deck from sides */
     --marginX: 5vw;
@@ -45,7 +47,7 @@
     
 
     
-
+    --cardF:url(../assets/frontOG.jpeg);
     --cardBg:url(../assets/back.jpeg);
     --vsPng:url(../assets/vs.png);
 
@@ -56,6 +58,5 @@
 * {
     
     box-sizing: border-box;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
 }
